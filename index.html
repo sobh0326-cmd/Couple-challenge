@@ -7,20 +7,35 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
-.hero{background:#EEEDFE;border-radius:16px;padding:28px 24px;margin-bottom:16px;text-align:center}
-.hero-badge{font-size:11px;font-weight:500;color:#534AB7;background:#CECBF6;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:14px}
+
+/* 로딩 */
+.loading{text-align:center;padding:80px 24px;color:#999;font-size:14px}
+.loading-spinner{font-size:32px;margin-bottom:12px;animation:spin 1s linear infinite;display:inline-block}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* 에러 */
+.error-box{background:#fff;border-radius:16px;padding:40px 24px;text-align:center;margin-top:40px}
+.error-box p{color:#999;font-size:14px;line-height:1.6}
+
+/* 히어로 */
+.hero{border-radius:16px;padding:28px 24px;margin-bottom:16px;text-align:center}
+.hero-badge{font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:14px}
 .hero-avatar-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:16px}
-.hero-avatar{width:56px;height:56px;border-radius:50%;background:#CECBF6;display:flex;align-items:center;justify-content:center;font-size:22px;color:#3C3489;font-weight:500}
-.hero-title{font-size:24px;font-weight:500;color:#26215C;margin-bottom:4px}
-.hero-nick{font-size:14px;color:#534AB7;margin-bottom:10px}
-.hero-desc{font-size:13px;color:#3C3489;line-height:1.7}
+.hero-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:500}
+.hero-title{font-size:24px;font-weight:500;margin-bottom:4px}
+.hero-nick{font-size:14px;margin-bottom:10px}
+.hero-desc{font-size:13px;line-height:1.7}
+
+/* 점수 카드 */
 .score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .score-card{background:#fff;border:0.5px solid #e5e5e5;border-radius:16px;padding:14px;text-align:center}
 .score-label{font-size:11px;color:#999;margin-bottom:6px}
 .score-val{font-size:22px;font-weight:500;color:#111;margin-bottom:4px}
 .score-bar-wrap{height:4px;background:#f0f0f0;border-radius:2px;overflow:hidden;margin-bottom:6px}
-.score-bar{height:4px;border-radius:2px;background:#7F77DD}
-.score-tag{font-size:11px;font-weight:500;padding:2px 8px;border-radius:8px;display:inline-block;background:#EEEDFE;color:#534AB7}
+.score-bar{height:4px;border-radius:2px}
+.score-tag{font-size:11px;font-weight:500;padding:2px 8px;border-radius:8px;display:inline-block}
+
+/* 잠금 박스 */
 .lock-box{background:#fff;border:0.5px solid #e5e5e5;border-radius:16px;padding:24px;text-align:center;margin-bottom:16px}
 .lock-icon{font-size:32px;margin-bottom:12px}
 .lock-title{font-size:16px;font-weight:500;color:#111;margin-bottom:8px}
@@ -31,46 +46,159 @@ body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-badge">3등급 · M-M-H</div>
-  <div class="hero-avatar-row">
-    <div class="hero-avatar">A</div>
-    <span style="font-size:28px">🤍</span>
-    <div class="hero-avatar">B</div>
-  </div>
-  <div class="hero-title">삼삼하게 좋은 커플</div>
-  <div class="hero-nick">(삼삼커)</div>
-  <div class="hero-desc">딱 맞지 않아도 괜찮아요. 함께 맞춰가는 과정이 우리만의 매력이에요.</div>
-</div>
-
-<div class="score-grid">
-  <div class="score-card">
-    <div class="score-label">소통 & 갈등</div>
-    <div class="score-val">66%</div>
-    <div class="score-bar-wrap"><div class="score-bar" style="width:66%"></div></div>
-    <span class="score-tag">M · 중간</span>
-  </div>
-  <div class="score-card">
-    <div class="score-label">감정 & 라이프</div>
-    <div class="score-val">71%</div>
-    <div class="score-bar-wrap"><div class="score-bar" style="width:71%"></div></div>
-    <span class="score-tag">M · 중간</span>
-  </div>
-  <div class="score-card">
-    <div class="score-label">가치관 & 미래</div>
-    <div class="score-val">76%</div>
-    <div class="score-bar-wrap"><div class="score-bar" style="width:76%"></div></div>
-    <span class="score-tag" style="background:#E1F5EE;color:#0F6E56">H · 높음</span>
+<div id="app">
+  <div class="loading">
+    <div class="loading-spinner">💫</div>
+    <p>결과를 불러오는 중이에요...</p>
   </div>
 </div>
 
-<div class="lock-box">
-  <div class="lock-icon">🔒</div>
-  <div class="lock-title">상세 결과 보기</div>
-  <div class="lock-desc">차원별 상세 점수 7개, 강점 & 주의점,<br>등급 올리기 미션, 대화 질문지까지<br>모두 확인할 수 있어요.</div>
-  <button class="lock-btn">결과 전체 보기 · 3,900원</button>
-  <div class="lock-sub">커플 둘이 나누면 1인당 1,950원</div>
-</div>
+<script>
+// =============================================
+// 설정값
+// =============================================
+const API_URL = "https://script.google.com/macros/s/AKfycbwHM03Eufo6aKzUXnKDWwJ8IXlIpHgt1X7RFBaVhZDXr0LFUaEDPoT-YS8Atv6PXDOy/exec";
 
+// 등급별 설정
+const GRADE_CONFIG = {
+  "1등급": {
+    bg: "#EEEDFE", badge_bg: "#CECBF6", badge_color: "#534AB7",
+    title_color: "#26215C", nick_color: "#534AB7", desc_color: "#3C3489",
+    avatar_bg: "#CECBF6", avatar_color: "#3C3489",
+    bar_color: "#7F77DD",
+    name: "일편단심 커플", nick: "(일편커)",
+    desc: "서로를 향한 마음이 한결같아요. 깊은 신뢰와 일치감이 우리의 가장 큰 강점이에요."
+  },
+  "2등급": {
+    bg: "#FAEEDA", badge_bg: "#F5D9A8", badge_color: "#854F0B",
+    title_color: "#4A2C0A", nick_color: "#854F0B", desc_color: "#6B3D0C",
+    avatar_bg: "#F5D9A8", avatar_color: "#854F0B",
+    bar_color: "#C97B2A",
+    name: "이심전심 커플", nick: "(이빛커)",
+    desc: "말하지 않아도 통하는 부분이 많아요. 조금만 더 맞춰가면 완벽한 파트너예요."
+  },
+  "3등급": {
+    bg: "#EEEDFE", badge_bg: "#CECBF6", badge_color: "#534AB7",
+    title_color: "#26215C", nick_color: "#534AB7", desc_color: "#3C3489",
+    avatar_bg: "#CECBF6", avatar_color: "#3C3489",
+    bar_color: "#7F77DD",
+    name: "삼삼하게 좋은 커플", nick: "(삼삼커)",
+    desc: "딱 맞지 않아도 괜찮아요. 함께 맞춰가는 과정이 우리만의 매력이에요."
+  },
+  "4등급": {
+    bg: "#EEEDFE", badge_bg: "#CECBF6", badge_color: "#534AB7",
+    title_color: "#26215C", nick_color: "#534AB7", desc_color: "#3C3489",
+    avatar_bg: "#CECBF6", avatar_color: "#3C3489",
+    bar_color: "#7F77DD",
+    name: "사뿐사뿐 커플", nick: "(사뿐커)",
+    desc: "서로 다른 만큼 배울 점도 많아요. 차이를 인정하는 것이 성장의 시작이에요."
+  }
+};
+
+// HML 태그 설정
+const HML_CONFIG = {
+  "H": { label: "H · 높음", bg: "#E1F5EE", color: "#0F6E56" },
+  "M": { label: "M · 중간", bg: "#EEEDFE", color: "#534AB7" },
+  "L": { label: "L · 낮음", bg: "#FEF3F2", color: "#B42318" }
+};
+
+// =============================================
+// 메인 로직
+// =============================================
+async function init() {
+  // URL에서 이메일 파라미터 읽기
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get("email");
+
+  if (!email) {
+    showError("이메일 정보가 없어요.<br>테스트를 먼저 완료해주세요.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}?email=${encodeURIComponent(email)}`);
+    const data = await res.json();
+
+    if (!data || !data.grade) {
+      showError("결과를 찾을 수 없어요.<br>테스트를 완료했는지 확인해주세요.");
+      return;
+    }
+
+    renderResult(data);
+  } catch (err) {
+    showError("데이터를 불러오지 못했어요.<br>잠시 후 다시 시도해주세요.");
+  }
+}
+
+function renderResult(data) {
+  // 등급 번호 추출 (예: "3등급 삼삼커" → "3등급")
+  const gradeKey = data.grade.substring(0, 3);
+  const cfg = GRADE_CONFIG[gradeKey] || GRADE_CONFIG["3등급"];
+  const hml1 = HML_CONFIG[data.hml1] || HML_CONFIG["M"];
+  const hml2 = HML_CONFIG[data.hml2] || HML_CONFIG["M"];
+  const hml3 = HML_CONFIG[data.hml3] || HML_CONFIG["M"];
+  const badgeText = `${gradeKey} · ${data.hml1}-${data.hml2}-${data.hml3}`;
+
+  document.getElementById("app").innerHTML = `
+    <div class="hero" style="background:${cfg.bg}">
+      <div class="hero-badge" style="background:${cfg.badge_bg};color:${cfg.badge_color}">${badgeText}</div>
+      <div class="hero-avatar-row">
+        <div class="hero-avatar" style="background:${cfg.avatar_bg};color:${cfg.avatar_color}">A</div>
+        <span style="font-size:28px">🤍</span>
+        <div class="hero-avatar" style="background:${cfg.avatar_bg};color:${cfg.avatar_color}">B</div>
+      </div>
+      <div class="hero-title" style="color:${cfg.title_color}">${cfg.name}</div>
+      <div class="hero-nick" style="color:${cfg.nick_color}">${cfg.nick}</div>
+      <div class="hero-desc" style="color:${cfg.desc_color}">${cfg.desc}</div>
+    </div>
+
+    <div class="score-grid">
+      <div class="score-card">
+        <div class="score-label">소통 & 갈등</div>
+        <div class="score-val">${data.score1}%</div>
+        <div class="score-bar-wrap"><div class="score-bar" style="width:${data.score1}%;background:${cfg.bar_color}"></div></div>
+        <span class="score-tag" style="background:${hml1.bg};color:${hml1.color}">${hml1.label}</span>
+      </div>
+      <div class="score-card">
+        <div class="score-label">감정 & 라이프</div>
+        <div class="score-val">${data.score2}%</div>
+        <div class="score-bar-wrap"><div class="score-bar" style="width:${data.score2}%;background:${cfg.bar_color}"></div></div>
+        <span class="score-tag" style="background:${hml2.bg};color:${hml2.color}">${hml2.label}</span>
+      </div>
+      <div class="score-card">
+        <div class="score-label">가치관 & 미래</div>
+        <div class="score-val">${data.score3}%</div>
+        <div class="score-bar-wrap"><div class="score-bar" style="width:${data.score3}%;background:${cfg.bar_color}"></div></div>
+        <span class="score-tag" style="background:${hml3.bg};color:${hml3.color}">${hml3.label}</span>
+      </div>
+    </div>
+
+    <div class="lock-box">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-title">상세 결과 보기</div>
+      <div class="lock-desc">차원별 상세 점수 7개, 강점 & 주의점,<br>등급 올리기 미션, 대화 질문지까지<br>모두 확인할 수 있어요.</div>
+      <button class="lock-btn" onclick="handlePayment('${email}')">결과 전체 보기 · 3,900원</button>
+      <div class="lock-sub">커플 둘이 나누면 1인당 1,950원</div>
+    </div>
+  `;
+}
+
+function handlePayment(email) {
+  // 추후 토스페이먼츠 연동 예정
+  alert("결제 기능은 준비 중이에요!");
+}
+
+function showError(msg) {
+  document.getElementById("app").innerHTML = `
+    <div class="error-box">
+      <p style="font-size:32px;margin-bottom:12px">😢</p>
+      <p>${msg}</p>
+    </div>
+  `;
+}
+
+// 실행
+init();
+</script>
 </body>
 </html>
