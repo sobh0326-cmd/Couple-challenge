@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>커플챌린지 결과</title>
+<script src="https://js.tosspayments.com/v2/base"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
@@ -43,42 +44,15 @@ body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
   </div>
 </div>
 
-<!-- 토스페이먼츠 SDK -->
-<script src="https://js.tosspayments.com/v1/payment"></script>
-
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwHM03Eufo6aKzUXnKDWwJ8IXlIpHgt1X7RFBaVhZDXr0LFUaEDPoT-YS8Atv6PXDOy/exec";
 const TOSS_CLIENT_KEY = "test_ck_d46qopOB89ZMQOyMpBEa3ZmM75y0";
 
 const GRADE_CONFIG = {
-  "1등급": {
-    bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",
-    title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",
-    avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",
-    name:"일편단심 커플",nick:"(일편커)",
-    desc:"서로를 향한 마음이 한결같아요. 깊은 신뢰와 일치감이 우리의 가장 큰 강점이에요."
-  },
-  "2등급": {
-    bg:"#FAEEDA",badge_bg:"#F5D9A8",badge_color:"#854F0B",
-    title_color:"#4A2C0A",nick_color:"#854F0B",desc_color:"#6B3D0C",
-    avatar_bg:"#F5D9A8",avatar_color:"#854F0B",bar_color:"#C97B2A",
-    name:"이심전심 커플",nick:"(이빛커)",
-    desc:"말하지 않아도 통하는 부분이 많아요. 조금만 더 맞춰가면 완벽한 파트너예요."
-  },
-  "3등급": {
-    bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",
-    title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",
-    avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",
-    name:"삼삼하게 좋은 커플",nick:"(삼삼커)",
-    desc:"딱 맞지 않아도 괜찮아요. 함께 맞춰가는 과정이 우리만의 매력이에요."
-  },
-  "4등급": {
-    bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",
-    title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",
-    avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",
-    name:"사뿐사뿐 커플",nick:"(사뿐커)",
-    desc:"서로 다른 만큼 배울 점도 많아요. 차이를 인정하는 것이 성장의 시작이에요."
-  }
+  "1등급":{bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",name:"일편단심 커플",nick:"(일편커)",desc:"서로를 향한 마음이 한결같아요. 깊은 신뢰와 일치감이 우리의 가장 큰 강점이에요."},
+  "2등급":{bg:"#FAEEDA",badge_bg:"#F5D9A8",badge_color:"#854F0B",title_color:"#4A2C0A",nick_color:"#854F0B",desc_color:"#6B3D0C",avatar_bg:"#F5D9A8",avatar_color:"#854F0B",bar_color:"#C97B2A",name:"이심전심 커플",nick:"(이빛커)",desc:"말하지 않아도 통하는 부분이 많아요. 조금만 더 맞춰가면 완벽한 파트너예요."},
+  "3등급":{bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",name:"삼삼하게 좋은 커플",nick:"(삼삼커)",desc:"딱 맞지 않아도 괜찮아요. 함께 맞춰가는 과정이 우리만의 매력이에요."},
+  "4등급":{bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",name:"사뿐사뿐 커플",nick:"(사뿐커)",desc:"서로 다른 만큼 배울 점도 많아요. 차이를 인정하는 것이 성장의 시작이에요."}
 };
 
 const HML_CONFIG = {
@@ -90,19 +64,11 @@ const HML_CONFIG = {
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const email = params.get("email");
-
-  if (!email) {
-    showError("이메일 정보가 없어요.<br>테스트를 먼저 완료해주세요.");
-    return;
-  }
-
+  if (!email) { showError("이메일 정보가 없어요.<br>테스트를 먼저 완료해주세요."); return; }
   try {
     const res = await fetch(`${API_URL}?email=${encodeURIComponent(email)}`);
     const data = await res.json();
-    if (!data || !data.grade) {
-      showError("결과를 찾을 수 없어요.<br>테스트를 완료했는지 확인해주세요.");
-      return;
-    }
+    if (!data || !data.grade) { showError("결과를 찾을 수 없어요.<br>테스트를 완료했는지 확인해주세요."); return; }
     renderResult(data);
   } catch (err) {
     showError("데이터를 불러오지 못했어요.<br>잠시 후 다시 시도해주세요.");
@@ -116,6 +82,7 @@ function renderResult(data) {
   const hml2 = HML_CONFIG[data.hml2] || HML_CONFIG["M"];
   const hml3 = HML_CONFIG[data.hml3] || HML_CONFIG["M"];
   const badgeText = `${gradeKey} · ${data.hml1}-${data.hml2}-${data.hml3}`;
+  const email = new URLSearchParams(window.location.search).get("email");
 
   document.getElementById("app").innerHTML = `
     <div class="hero" style="background:${cfg.bg}">
@@ -129,7 +96,6 @@ function renderResult(data) {
       <div class="hero-nick" style="color:${cfg.nick_color}">${cfg.nick}</div>
       <div class="hero-desc" style="color:${cfg.desc_color}">${cfg.desc}</div>
     </div>
-
     <div class="score-grid">
       <div class="score-card">
         <div class="score-label">소통 & 갈등</div>
@@ -150,29 +116,29 @@ function renderResult(data) {
         <span class="score-tag" style="background:${hml3.bg};color:${hml3.color}">${hml3.label}</span>
       </div>
     </div>
-
     <div class="lock-box">
       <div class="lock-icon">🔒</div>
       <div class="lock-title">상세 결과 보기</div>
       <div class="lock-desc">차원별 상세 점수 7개, 강점 & 주의점,<br>등급 올리기 미션, 대화 질문지까지<br>모두 확인할 수 있어요.</div>
-      <button class="lock-btn" onclick="handlePayment('${email}')">결과 전체 보기 · 3,900원</button>
+      <button class="lock-btn" id="payBtn">결과 전체 보기 · 3,900원</button>
       <div class="lock-sub">커플 둘이 나누면 1인당 1,950원</div>
     </div>
   `;
+
+  document.getElementById("payBtn").addEventListener("click", () => handlePayment(email));
 }
 
 async function handlePayment(email) {
-  const tossPayments = TossPayments(TOSS_CLIENT_KEY);
-  const orderId = "order_" + Date.now();
-
   try {
+    const tossPayments = TossPayments(TOSS_CLIENT_KEY);
+    const orderId = "order_" + Date.now();
     await tossPayments.requestPayment("카드", {
       amount: 3900,
       orderId: orderId,
       orderName: "커플챌린지 상세 결과",
       customerEmail: email,
-      successUrl: window.location.origin + "/Couple-challenge/success.html?email=" + encodeURIComponent(email),
-      failUrl: window.location.origin + "/Couple-challenge/fail.html",
+      successUrl: "https://sobh0326-cmd.github.io/Couple-challenge/success.html?email=" + encodeURIComponent(email),
+      failUrl: "https://sobh0326-cmd.github.io/Couple-challenge/fail.html",
     });
   } catch (err) {
     if (err.code !== "USER_CANCEL") {
