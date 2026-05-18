@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>커플챌린지 결과</title>
-<script src="https://js.tosspayments.com/v2/base"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
@@ -130,19 +129,23 @@ function renderResult(data) {
 
 async function handlePayment(email) {
   try {
-    const tossPayments = TossPayments(TOSS_CLIENT_KEY);
+    const { loadTossPayments } = await import("https://js.tosspayments.com/v2/base");
+    const tossPayments = await loadTossPayments(TOSS_CLIENT_KEY);
+    const payment = tossPayments.payment({ customerKey: email });
     const orderId = "order_" + Date.now();
-    await tossPayments.requestPayment("카드", {
-      amount: 3900,
+
+    await payment.requestPayment({
+      method: "CARD",
+      amount: { currency: "KRW", value: 3900 },
       orderId: orderId,
       orderName: "커플챌린지 상세 결과",
-      customerEmail: email,
       successUrl: "https://sobh0326-cmd.github.io/Couple-challenge/success.html?email=" + encodeURIComponent(email),
       failUrl: "https://sobh0326-cmd.github.io/Couple-challenge/fail.html",
     });
   } catch (err) {
+    console.error("결제 에러:", err);
     if (err.code !== "USER_CANCEL") {
-      alert("결제 중 오류가 발생했어요. 다시 시도해주세요.");
+      alert("결제 오류: " + (err.message || "다시 시도해주세요."));
     }
   }
 }
