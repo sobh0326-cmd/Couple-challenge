@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>커플챌린지 · 결과 확인</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+body{background:#f5f5f5;padding:24px 16px;max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+
+.card{background:#fff;border-radius:20px;padding:32px 24px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+
+.emoji{font-size:48px;margin-bottom:16px}
+.title{font-size:20px;font-weight:600;color:#111;margin-bottom:8px}
+.desc{font-size:13px;color:#888;line-height:1.7;margin-bottom:28px}
+
+.input-wrap{text-align:left;margin-bottom:16px}
+.input-label{font-size:12px;color:#666;margin-bottom:6px;display:block;font-weight:500}
+.input-field{width:100%;padding:13px 16px;border:1.5px solid #e5e5e5;border-radius:12px;font-size:15px;color:#111;outline:none;transition:border-color 0.2s}
+.input-field:focus{border-color:#7F77DD}
+.input-field::placeholder{color:#bbb}
+
+.btn{width:100%;background:#7F77DD;color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;transition:opacity 0.2s;margin-bottom:12px}
+.btn:hover{opacity:0.88}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+
+.notice{background:#F5F4FF;border-radius:12px;padding:14px 16px;text-align:left;margin-top:4px}
+.notice-title{font-size:12px;font-weight:600;color:#534AB7;margin-bottom:6px}
+.notice-item{font-size:12px;color:#666;line-height:1.8;padding-left:8px}
+.notice-item::before{content:"· ";color:#7F77DD}
+
+.error-msg{font-size:12px;color:#E53E3E;margin-top:8px;display:none;text-align:left}
+
+.divider{border:none;border-top:1px solid #f0f0f0;margin:20px 0}
+.form-link{font-size:13px;color:#7F77DD;text-decoration:none;display:block;text-align:center;padding:4px}
+.form-link:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="emoji">💌</div>
+  <div class="title">결과 확인하기</div>
+  <div class="desc">테스트할 때 입력한 이메일을 넣으면<br>커플 궁합 결과를 확인할 수 있어요.</div>
+
+  <div class="input-wrap">
+    <label class="input-label" for="emailInput">이메일 주소</label>
+    <input
+      class="input-field"
+      id="emailInput"
+      type="email"
+      placeholder="test@example.com"
+      autocomplete="email"
+      inputmode="email"
+    >
+    <div class="error-msg" id="errorMsg">이메일 형식을 확인해주세요.</div>
+  </div>
+
+  <button class="btn" id="confirmBtn" onclick="goToResult()">결과 확인하기</button>
+
+  <div class="notice">
+    <div class="notice-title">📋 이런 경우 결과가 안 나와요</div>
+    <div class="notice-item">테스트를 아직 완료하지 않은 경우</div>
+    <div class="notice-item">이메일을 다르게 입력한 경우</div>
+    <div class="notice-item">파트너도 테스트를 완료해야 최종 결과가 나와요</div>
+  </div>
+
+  <hr class="divider">
+  <a class="form-link" href="https://docs.google.com/forms/d/e/1FAIpQLScI5z4gKdZEFpV2GNciWQHlHyqmpbQ_Mu5BORF_IbXxTKhTOA/viewform" target="_blank">
+    아직 테스트를 안 했나요? 테스트 하러 가기 →
+  </a>
+</div>
+
+<script>
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function goToResult() {
+  const email = document.getElementById('emailInput').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+
+  if (!email || !isValidEmail(email)) {
+    errorMsg.style.display = 'block';
+    document.getElementById('emailInput').style.borderColor = '#E53E3E';
+    return;
+  }
+
+  errorMsg.style.display = 'none';
+  window.location.href = 'https://sobh0326-cmd.github.io/Couple-challenge/index.html?email=' + encodeURIComponent(email);
+}
+
+// 엔터키로도 이동
+document.getElementById('emailInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') goToResult();
+});
+
+// 입력 시 에러 초기화
+document.getElementById('emailInput').addEventListener('input', function() {
+  document.getElementById('errorMsg').style.display = 'none';
+  this.style.borderColor = '#e5e5e5';
+});
+</script>
+</body>
+</html>
