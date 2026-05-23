@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>커플챌린지 결과</title>
 <script src="https://js.tosspayments.com/v1/payment"></script>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
@@ -31,8 +32,16 @@ body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
 .lock-icon{font-size:32px;margin-bottom:12px}
 .lock-title{font-size:16px;font-weight:500;color:#111;margin-bottom:8px}
 .lock-desc{font-size:13px;color:#666;margin-bottom:16px;line-height:1.6}
-.lock-btn{background:#7F77DD;color:#fff;border:none;border-radius:12px;padding:14px 32px;font-size:15px;font-weight:500;cursor:pointer;width:100%}
+.lock-btn{background:#7F77DD;color:#fff;border:none;border-radius:12px;padding:14px 32px;font-size:15px;font-weight:500;cursor:pointer;width:100%;margin-bottom:10px}
 .lock-sub{font-size:11px;color:#999;margin-top:8px}
+
+/* 카카오 공유 버튼 */
+.share-box{background:#fff;border:0.5px solid #e5e5e5;border-radius:16px;padding:20px 24px;text-align:center;margin-bottom:16px}
+.share-title{font-size:14px;font-weight:500;color:#111;margin-bottom:6px}
+.share-desc{font-size:12px;color:#999;margin-bottom:14px;line-height:1.5}
+.kakao-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:#FEE500;color:#3C1E1E;border:none;border-radius:12px;padding:13px 20px;font-size:14px;font-weight:600;cursor:pointer;width:100%;transition:opacity 0.2s}
+.kakao-btn:hover{opacity:0.85}
+.kakao-btn img{width:20px;height:20px}
 </style>
 </head>
 <body>
@@ -45,14 +54,18 @@ body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
 </div>
 
 <script>
+// 카카오 SDK 초기화
+Kakao.init('a6588948dac27e08fe9b591ad8438131');
+
 const API_URL = "https://script.google.com/macros/s/AKfycbzdpTDkFsr-O7P-JiiilJNjdw-LEuB6OFiakoBKkTY_Sdnem2CIZX3E7WtuLI1DtcnXAg/exec";
 const TOSS_CLIENT_KEY = "test_ck_d46qopOB89ZMQOyMpBEa3ZmM75y0";
+const BASE_URL = "https://sobh0326-cmd.github.io/Couple-challenge";
 
 const GRADE_CONFIG = {
-  "1등급":{bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",name:"일편단심 커플",nick:"(일편커)",desc:"서로를 향한 마음이 한결같아요. 깊은 신뢰와 일치감이 우리의 가장 큰 강점이에요."},
-  "2등급":{bg:"#FAEEDA",badge_bg:"#F5D9A8",badge_color:"#854F0B",title_color:"#4A2C0A",nick_color:"#854F0B",desc_color:"#6B3D0C",avatar_bg:"#F5D9A8",avatar_color:"#854F0B",bar_color:"#C97B2A",name:"이심전심 커플",nick:"(이빛커)",desc:"말하지 않아도 통하는 부분이 많아요. 조금만 더 맞춰가면 완벽한 파트너예요."},
-  "3등급":{bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",name:"삼삼하게 좋은 커플",nick:"(삼삼커)",desc:"딱 맞지 않아도 괜찮아요. 함께 맞춰가는 과정이 우리만의 매력이에요."},
-  "4등급":{bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",name:"사뿐사뿐 커플",nick:"(사뿐커)",desc:"서로 다른 만큼 배울 점도 많아요. 차이를 인정하는 것이 성장의 시작이에요."}
+  "1등급":{bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",name:"일편단심 커플",nick:"(일편커)",desc:"서로를 향한 마음이 한결같아요. 깊은 신뢰와 일치감이 우리의 가장 큰 강점이에요.",kakao_msg:"우리 커플 궁합 테스트했더니 1등급 일편커 나왔어 💜 너도 해봐!"},
+  "2등급":{bg:"#FAEEDA",badge_bg:"#F5D9A8",badge_color:"#854F0B",title_color:"#4A2C0A",nick_color:"#854F0B",desc_color:"#6B3D0C",avatar_bg:"#F5D9A8",avatar_color:"#854F0B",bar_color:"#C97B2A",name:"이심전심 커플",nick:"(이빛커)",desc:"말하지 않아도 통하는 부분이 많아요. 조금만 더 맞춰가면 완벽한 파트너예요.",kakao_msg:"우리 커플 궁합 테스트했더니 2등급 이빛커 나왔어 ✨ 너도 해봐!"},
+  "3등급":{bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",name:"삼삼하게 좋은 커플",nick:"(삼삼커)",desc:"딱 맞지 않아도 괜찮아요. 함께 맞춰가는 과정이 우리만의 매력이에요.",kakao_msg:"우리 커플 궁합 테스트했더니 3등급 삼삼커 나왔어 🌿 너도 해봐!"},
+  "4등급":{bg:"#EEEDFE",badge_bg:"#CECBF6",badge_color:"#534AB7",title_color:"#26215C",nick_color:"#534AB7",desc_color:"#3C3489",avatar_bg:"#CECBF6",avatar_color:"#3C3489",bar_color:"#7F77DD",name:"사뿐사뿐 커플",nick:"(사뿐커)",desc:"서로 다른 만큼 배울 점도 많아요. 차이를 인정하는 것이 성장의 시작이에요.",kakao_msg:"우리 커플 궁합 테스트했더니 4등급 사뿐커 나왔어 🌱 너도 해봐!"}
 };
 
 const HML_CONFIG = {
@@ -116,6 +129,17 @@ function renderResult(data) {
         <span class="score-tag" style="background:${hml3.bg};color:${hml3.color}">${hml3.label}</span>
       </div>
     </div>
+
+    <!-- 카카오 공유 섹션 -->
+    <div class="share-box">
+      <div class="share-title">💌 파트너에게 테스트 링크 보내기</div>
+      <div class="share-desc">파트너도 테스트를 완료해야<br>커플 궁합 결과가 완성돼요!</div>
+      <button class="kakao-btn" onclick="shareKakao('${gradeKey}', '${cfg.kakao_msg}')">
+        <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" alt="카카오">
+        카카오톡으로 공유하기
+      </button>
+    </div>
+
     <div class="lock-box">
       <div class="lock-icon">🔒</div>
       <div class="lock-title">상세 결과 보기</div>
@@ -128,6 +152,42 @@ function renderResult(data) {
   document.getElementById("payBtn").addEventListener("click", () => handlePayment(email));
 }
 
+function shareKakao(gradeKey, msg) {
+  const gradeEmoji = {
+    "1등급": "💜", "2등급": "✨", "3등급": "🌿", "4등급": "🌱"
+  };
+  const emoji = gradeEmoji[gradeKey] || "💕";
+
+  Kakao.Share.sendDefault({
+    objectType: 'feed',
+    content: {
+      title: '커플챌린지 · 우리 커플 궁합 테스트',
+      description: msg,
+      imageUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/og-image.png',
+      link: {
+        mobileWebUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/',
+        webUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/',
+      },
+    },
+    buttons: [
+      {
+        title: '나도 테스트 하기',
+        link: {
+          mobileWebUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScI5z4gKdZEFpV2GNciWQHlHyqmpbQ_Mu5BORF_IbXxTKhTOA/viewform',
+          webUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScI5z4gKdZEFpV2GNciWQHlHyqmpbQ_Mu5BORF_IbXxTKhTOA/viewform',
+        },
+      },
+      {
+        title: '결과 확인하기',
+        link: {
+          mobileWebUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/',
+          webUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/',
+        },
+      },
+    ],
+  });
+}
+
 function handlePayment(email) {
   try {
     const tossPayments = TossPayments(TOSS_CLIENT_KEY);
@@ -137,8 +197,8 @@ function handlePayment(email) {
       orderId: orderId,
       orderName: "커플챌린지 상세 결과",
       customerEmail: email,
-      successUrl: "https://sobh0326-cmd.github.io/Couple-challenge/success.html?email=" + encodeURIComponent(email),
-      failUrl: "https://sobh0326-cmd.github.io/Couple-challenge/fail.html",
+      successUrl: `${BASE_URL}/success.html?email=${encodeURIComponent(email)}`,
+      failUrl: `${BASE_URL}/fail.html`,
     });
   } catch (err) {
     console.error("결제 에러:", err);
