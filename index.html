@@ -14,13 +14,22 @@ body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .error-box{background:#fff;border-radius:16px;padding:40px 24px;text-align:center;margin-top:40px}
 .error-box p{color:#999;font-size:14px;line-height:1.6}
-.hero{border-radius:16px;padding:28px 24px;margin-bottom:16px;text-align:center}
-.hero-badge{font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:14px}
+
+/* 히어로 */
+.hero{border-radius:16px;padding:28px 24px 24px;margin-bottom:16px;text-align:center}
+.hero-grade-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.hero-grade-num{font-size:18px;font-weight:700;padding:4px 14px;border-radius:20px;display:inline-block}
+.hero-grade-dot{font-size:14px;color:#bbb}
+.hero-hml-row{display:flex;align-items:center;gap:6px}
+.hero-hml-tag{font-size:12px;font-weight:700;padding:3px 10px;border-radius:10px;display:inline-block}
 .hero-avatar-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:16px}
 .hero-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:500}
 .hero-title{font-size:24px;font-weight:500;margin-bottom:4px}
 .hero-nick{font-size:14px;margin-bottom:10px}
-.hero-desc{font-size:13px;line-height:1.7}
+.hero-desc{font-size:13px;line-height:1.7;margin-bottom:16px}
+.hero-upgrade-hint{font-size:12px;padding:10px 14px;border-radius:10px;opacity:0.85;line-height:1.6}
+
+/* 점수 */
 .score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .score-card{background:#fff;border:0.5px solid #e5e5e5;border-radius:16px;padding:14px;text-align:center}
 .score-label{font-size:11px;color:#999;margin-bottom:6px}
@@ -28,20 +37,27 @@ body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
 .score-bar-wrap{height:4px;background:#f0f0f0;border-radius:2px;overflow:hidden;margin-bottom:6px}
 .score-bar{height:4px;border-radius:2px}
 .score-tag{font-size:11px;font-weight:500;padding:2px 8px;border-radius:8px;display:inline-block}
-.lock-box{background:#fff;border:0.5px solid #e5e5e5;border-radius:16px;padding:24px;text-align:center;margin-bottom:16px}
-.lock-icon{font-size:32px;margin-bottom:12px}
-.lock-title{font-size:16px;font-weight:500;color:#111;margin-bottom:8px}
-.lock-desc{font-size:13px;color:#666;margin-bottom:16px;line-height:1.6}
-.lock-btn{background:#7F77DD;color:#fff;border:none;border-radius:12px;padding:14px 32px;font-size:15px;font-weight:500;cursor:pointer;width:100%;margin-bottom:10px}
-.lock-sub{font-size:11px;color:#999;margin-top:8px}
 
-/* 카카오 공유 버튼 */
+/* 공유 */
 .share-box{background:#fff;border:0.5px solid #e5e5e5;border-radius:16px;padding:20px 24px;text-align:center;margin-bottom:16px}
 .share-title{font-size:14px;font-weight:500;color:#111;margin-bottom:6px}
 .share-desc{font-size:12px;color:#999;margin-bottom:14px;line-height:1.5}
 .kakao-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:#FEE500;color:#3C1E1E;border:none;border-radius:12px;padding:13px 20px;font-size:14px;font-weight:600;cursor:pointer;width:100%;transition:opacity 0.2s}
 .kakao-btn:hover{opacity:0.85}
 .kakao-btn img{width:20px;height:20px}
+
+/* 잠금 박스 */
+.lock-box{background:#fff;border:0.5px solid #e5e5e5;border-radius:16px;padding:24px;margin-bottom:16px}
+.lock-hook{font-size:15px;font-weight:600;color:#111;line-height:1.6;margin-bottom:6px;text-align:center}
+.lock-sub-hook{font-size:13px;color:#666;line-height:1.6;margin-bottom:20px;text-align:center}
+.lock-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.lock-feature-item{background:#f8f7ff;border-radius:12px;padding:12px;text-align:center}
+.lock-feature-icon{font-size:20px;margin-bottom:6px}
+.lock-feature-label{font-size:12px;font-weight:600;color:#534AB7;margin-bottom:2px}
+.lock-feature-desc{font-size:11px;color:#888;line-height:1.4}
+.lock-btn{background:#7F77DD;color:#fff;border:none;border-radius:12px;padding:14px 32px;font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-bottom:8px;transition:opacity 0.2s}
+.lock-btn:hover{opacity:0.88}
+.lock-price-hint{font-size:11px;color:#999;text-align:center}
 </style>
 </head>
 <body>
@@ -54,7 +70,6 @@ body{background:#f5f5f5;padding:16px;max-width:430px;margin:0 auto}
 </div>
 
 <script>
-// 카카오 SDK 초기화
 Kakao.init('a6588948dac27e08fe9b591ad8438131');
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyt6IGUx0Rhx1TCU6xvC-DRPhJqjTGXLPJ3iPxyyPJ-AZji9yW7OssnO0yIopjxiIGqaA/exec";
@@ -69,10 +84,67 @@ const GRADE_CONFIG = {
 };
 
 const HML_CONFIG = {
+  "H":{label:"H",bg:"#E1F5EE",color:"#0F6E56"},
+  "M":{label:"M",bg:"#EEEDFE",color:"#534AB7"},
+  "L":{label:"L",bg:"#FEF3F2",color:"#B42318"}
+};
+
+const HML_LABEL = {
   "H":{label:"H · 높음",bg:"#E1F5EE",color:"#0F6E56"},
   "M":{label:"M · 중간",bg:"#EEEDFE",color:"#534AB7"},
   "L":{label:"L · 낮음",bg:"#FEF3F2",color:"#B42318"}
 };
+
+// 등급+HML 조합별 잠금 박스 멘트
+function getLockCopy(gradeKey, hml1, hml2, hml3) {
+  const hasL = hml1==="L" || hml2==="L" || hml3==="L";
+  const allH = hml1==="H" && hml2==="H" && hml3==="H";
+  const combo = `${hml1}-${hml2}-${hml3}`;
+
+  if (gradeKey === "1등급") {
+    return {
+      hook: "지금 이 관계, 앞으로도 계속 1등급일 수 있을까요? 🔒",
+      sub: "완벽해 보여도 놓치고 있는 것들이 있어요.\n지금 확인하지 않으면 나중에 후회할 수 있어요."
+    };
+  }
+  if (gradeKey === "2등급") {
+    return {
+      hook: "2등급 → 1등급, 딱 하나만 바꾸면 올라갈 수 있어요. 🔒",
+      sub: "우리 커플의 약한 고리가 어딘지 알고 있나요?\n맞춤 미션 3개로 등급을 올려보세요."
+    };
+  }
+  if (gradeKey === "3등급") {
+    if (hasL) {
+      return {
+        hook: "지금 우리 관계에서 가장 위험한 패턴이 뭔지 알고 싶어요? 🔒",
+        sub: "차원별 점수를 보면 반복되는 갈등의 원인이 보여요.\n파트너는 우리 관계에서 뭘 가장 아쉬워하고 있을까요?"
+      };
+    }
+    return {
+      hook: "3등급 → 2등급, 우리 커플 맞춤 미션 3개가 잠겨있어요. 🔒",
+      sub: "파트너는 우리 관계에서 뭘 가장 아쉬워하고 있을까요?\n지금 확인 안 하면 영영 모를 수도 있어요."
+    };
+  }
+  // 4등급
+  if (hasL) {
+    return {
+      hook: "지금 우리 관계에서 가장 위험한 패턴이 뭔지 알고 싶어요? 🔒",
+      sub: "차원별 점수를 보면 반복되는 갈등의 원인이 보여요.\n지금 바로 확인하고 관계를 지켜보세요."
+    };
+  }
+  return {
+    hook: "지금은 괜찮아 보여도, 6개월 후에도 괜찮을까요? 🔒",
+    sub: "지금 놓치고 있는 패턴을 미리 확인해보세요.\n알고 있는 것만으로도 관계가 달라져요."
+  };
+}
+
+// 히어로 하단 힌트 문구
+function getUpgradeHint(gradeKey, cfg) {
+  if (gradeKey === "1등급") return "💜 지금 이 관계를 오래 유지하는 비결이 상세 결과에 있어요";
+  if (gradeKey === "2등급") return "✨ 딱 하나만 바꾸면 1등급으로 올라갈 수 있어요";
+  if (gradeKey === "3등급") return "🌿 색다른 대화와 미션으로 2등급에 도전해보세요";
+  return "🌱 지금부터 시작해도 충분해요. 등급을 올려봐요";
+}
 
 async function init() {
   const params = new URLSearchParams(window.location.search);
@@ -94,12 +166,27 @@ function renderResult(data) {
   const hml1 = HML_CONFIG[data.hml1] || HML_CONFIG["M"];
   const hml2 = HML_CONFIG[data.hml2] || HML_CONFIG["M"];
   const hml3 = HML_CONFIG[data.hml3] || HML_CONFIG["M"];
-  const badgeText = `${gradeKey} · ${data.hml1}-${data.hml2}-${data.hml3}`;
+  const hmlLabel1 = HML_LABEL[data.hml1] || HML_LABEL["M"];
+  const hmlLabel2 = HML_LABEL[data.hml2] || HML_LABEL["M"];
+  const hmlLabel3 = HML_LABEL[data.hml3] || HML_LABEL["M"];
   const email = new URLSearchParams(window.location.search).get("email");
+  const lockCopy = getLockCopy(gradeKey, data.hml1, data.hml2, data.hml3);
+  const upgradeHint = getUpgradeHint(gradeKey, cfg);
 
   document.getElementById("app").innerHTML = `
     <div class="hero" style="background:${cfg.bg}">
-      <div class="hero-badge" style="background:${cfg.badge_bg};color:${cfg.badge_color}">${badgeText}</div>
+
+      <!-- 등급 + HML 배지 -->
+      <div class="hero-grade-row">
+        <span class="hero-grade-num" style="background:${cfg.badge_bg};color:${cfg.badge_color}">${gradeKey}</span>
+        <span class="hero-grade-dot">·</span>
+        <div class="hero-hml-row">
+          <span class="hero-hml-tag" style="background:${hml1.bg};color:${hml1.color}">소통 ${hml1.label}</span>
+          <span class="hero-hml-tag" style="background:${hml2.bg};color:${hml2.color}">감정 ${hml2.label}</span>
+          <span class="hero-hml-tag" style="background:${hml3.bg};color:${hml3.color}">미래 ${hml3.label}</span>
+        </div>
+      </div>
+
       <div class="hero-avatar-row">
         <div class="hero-avatar" style="background:${cfg.avatar_bg};color:${cfg.avatar_color}">A</div>
         <span style="font-size:28px">🤍</span>
@@ -108,29 +195,32 @@ function renderResult(data) {
       <div class="hero-title" style="color:${cfg.title_color}">${cfg.name}</div>
       <div class="hero-nick" style="color:${cfg.nick_color}">${cfg.nick}</div>
       <div class="hero-desc" style="color:${cfg.desc_color}">${cfg.desc}</div>
+      <div class="hero-upgrade-hint" style="background:${cfg.badge_bg};color:${cfg.badge_color}">${upgradeHint}</div>
     </div>
+
+    <!-- 점수 -->
     <div class="score-grid">
       <div class="score-card">
         <div class="score-label">소통 & 갈등</div>
         <div class="score-val">${data.score1}%</div>
         <div class="score-bar-wrap"><div class="score-bar" style="width:${data.score1}%;background:${cfg.bar_color}"></div></div>
-        <span class="score-tag" style="background:${hml1.bg};color:${hml1.color}">${hml1.label}</span>
+        <span class="score-tag" style="background:${hmlLabel1.bg};color:${hmlLabel1.color}">${hmlLabel1.label}</span>
       </div>
       <div class="score-card">
         <div class="score-label">감정 & 라이프</div>
         <div class="score-val">${data.score2}%</div>
         <div class="score-bar-wrap"><div class="score-bar" style="width:${data.score2}%;background:${cfg.bar_color}"></div></div>
-        <span class="score-tag" style="background:${hml2.bg};color:${hml2.color}">${hml2.label}</span>
+        <span class="score-tag" style="background:${hmlLabel2.bg};color:${hmlLabel2.color}">${hmlLabel2.label}</span>
       </div>
       <div class="score-card">
         <div class="score-label">가치관 & 미래</div>
         <div class="score-val">${data.score3}%</div>
         <div class="score-bar-wrap"><div class="score-bar" style="width:${data.score3}%;background:${cfg.bar_color}"></div></div>
-        <span class="score-tag" style="background:${hml3.bg};color:${hml3.color}">${hml3.label}</span>
+        <span class="score-tag" style="background:${hmlLabel3.bg};color:${hmlLabel3.color}">${hmlLabel3.label}</span>
       </div>
     </div>
 
-    <!-- 카카오 공유 섹션 -->
+    <!-- 카카오 공유 -->
     <div class="share-box">
       <div class="share-title">💌 파트너에게 테스트 링크 보내기</div>
       <div class="share-desc">파트너도 테스트를 완료해야<br>커플 궁합 결과가 완성돼요!</div>
@@ -140,12 +230,36 @@ function renderResult(data) {
       </button>
     </div>
 
+    <!-- 잠금 박스 -->
     <div class="lock-box">
-      <div class="lock-icon">🔒</div>
-      <div class="lock-title">상세 결과 보기</div>
-      <div class="lock-desc">차원별 상세 점수 7개, 강점 & 주의점,<br>등급 올리기 미션, 대화 질문지까지<br>모두 확인할 수 있어요.</div>
+      <div class="lock-hook">${lockCopy.hook}</div>
+      <div class="lock-sub-hook">${lockCopy.sub.replace(/\n/g,'<br>')}</div>
+
+      <div class="lock-features">
+        <div class="lock-feature-item">
+          <div class="lock-feature-icon">📊</div>
+          <div class="lock-feature-label">차원별 점수 7개</div>
+          <div class="lock-feature-desc">어디가 강하고<br>어디가 약한지</div>
+        </div>
+        <div class="lock-feature-item">
+          <div class="lock-feature-icon">⚠️</div>
+          <div class="lock-feature-label">강점 & 위험 패턴</div>
+          <div class="lock-feature-desc">반복되는 갈등의<br>원인이 보여요</div>
+        </div>
+        <div class="lock-feature-item">
+          <div class="lock-feature-icon">🎯</div>
+          <div class="lock-feature-label">등급 올리기 미션</div>
+          <div class="lock-feature-desc">우리 커플 맞춤<br>미션 3개</div>
+        </div>
+        <div class="lock-feature-item">
+          <div class="lock-feature-icon">💬</div>
+          <div class="lock-feature-label">대화 질문지 14개</div>
+          <div class="lock-feature-desc">한 번도 안 해본<br>깊은 대화 시작</div>
+        </div>
+      </div>
+
       <button class="lock-btn" id="payBtn">결과 전체 보기 · 3,900원</button>
-      <div class="lock-sub">커플 둘이 나누면 1인당 1,950원</div>
+      <div class="lock-price-hint">커플 둘이 나누면 1인당 1,950원</div>
     </div>
   `;
 
@@ -153,11 +267,6 @@ function renderResult(data) {
 }
 
 function shareKakao(gradeKey, msg) {
-  const gradeEmoji = {
-    "1등급": "💜", "2등급": "✨", "3등급": "🌿", "4등급": "🌱"
-  };
-  const emoji = gradeEmoji[gradeKey] || "💕";
-
   Kakao.Share.sendDefault({
     objectType: 'feed',
     content: {
@@ -165,25 +274,13 @@ function shareKakao(gradeKey, msg) {
       description: msg,
       imageUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/og-image.png',
       link: {
-        mobileWebUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/start.html',
-        webUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/start.html',
+        mobileWebUrl: `${BASE_URL}/start.html`,
+        webUrl: `${BASE_URL}/start.html`,
       },
     },
     buttons: [
-      {
-        title: '나도 테스트 하기',
-        link: {
-          mobileWebUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/start.html',
-          webUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/start.html',
-        },
-      },
-      {
-        title: '결과 확인하기',
-        link: {
-          mobileWebUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/result.html',
-          webUrl: 'https://sobh0326-cmd.github.io/Couple-challenge/result.html',
-        },
-      },
+      {title:'나도 테스트 하기',link:{mobileWebUrl:`${BASE_URL}/start.html`,webUrl:`${BASE_URL}/start.html`}},
+      {title:'결과 확인하기',link:{mobileWebUrl:`${BASE_URL}/result.html`,webUrl:`${BASE_URL}/result.html`}}
     ],
   });
 }
