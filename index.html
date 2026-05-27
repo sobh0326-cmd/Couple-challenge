@@ -220,6 +220,44 @@ function renderResult(data) {
       </div>
     </div>
 
+    <!-- 등급 게이지 -->
+    <div style="background:#fff;border:0.5px solid #e5e5e5;border-radius:16px;padding:20px;margin-bottom:16px;">
+      <div style="font-size:12px;color:#999;margin-bottom:14px;text-align:center;">4등급 중 우리 커플 위치</div>
+      <div style="display:flex;align-items:stretch;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
+          <div style="font-size:10px;color:#bbb;margin-bottom:4px;">최상위</div>
+          <div style="position:relative;width:20px;flex:1;min-height:160px;border-radius:10px;overflow:hidden;">
+            <div style="position:absolute;top:0;left:0;right:0;height:25%;background:#FFB800;border-radius:10px 10px 0 0;"></div>
+            <div style="position:absolute;top:25%;left:0;right:0;height:25%;background:#FF7A2F;"></div>
+            <div style="position:absolute;top:50%;left:0;right:0;height:25%;background:#7B6EFF;"></div>
+            <div style="position:absolute;top:75%;left:0;right:0;height:25%;background:#B0AFBA;border-radius:0 0 10px 10px;"></div>
+            <div id="gaugePointer" style="position:absolute;left:50%;transform:translate(-50%,-50%);width:22px;height:22px;background:white;border-radius:50%;border:3px solid #5A4FFF;z-index:3;display:flex;align-items:center;justify-content:center;">
+              <div style="width:7px;height:7px;background:#5A4FFF;border-radius:50%;"></div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:#bbb;margin-top:4px;">최하위</div>
+        </div>
+        <div style="display:flex;flex-direction:column;flex:1;justify-content:space-between;padding:14px 0;">
+          <div id="grade1row" style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:#f5f5f5;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#FFB800;flex-shrink:0;"></div>
+            <div><div style="font-size:12px;color:#888;">1등급</div><div style="font-size:11px;color:#aaa;">일편단심 커플</div></div>
+          </div>
+          <div id="grade2row" style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:#f5f5f5;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#FF7A2F;flex-shrink:0;"></div>
+            <div><div style="font-size:12px;color:#888;">2등급</div><div style="font-size:11px;color:#aaa;">이심전심 커플</div></div>
+          </div>
+          <div id="grade3row" style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:#f5f5f5;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#7B6EFF;flex-shrink:0;"></div>
+            <div><div style="font-size:12px;color:#888;">3등급</div><div style="font-size:11px;color:#aaa;">삼삼하게 좋은 커플</div></div>
+          </div>
+          <div id="grade4row" style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:#f5f5f5;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#B0AFBA;flex-shrink:0;"></div>
+            <div><div style="font-size:12px;color:#888;">4등급</div><div style="font-size:11px;color:#aaa;">사뿐사뿐 커플</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 카카오 공유 -->
     <div class="share-box">
       <div class="share-title">💌 파트너에게 테스트 링크 보내기</div>
@@ -264,6 +302,29 @@ function renderResult(data) {
   `;
 
   document.getElementById("payBtn").addEventListener("click", () => handlePayment(email));
+
+  const gaugeMap = {"1등급":{top:"12.5%",color:"#FFB800",border:"#CC9200",rowId:"grade1row",name:"일편단심 커플"},"2등급":{top:"37.5%",color:"#FF7A2F",border:"#CC5500",rowId:"grade2row",name:"이심전심 커플"},"3등급":{top:"62.5%",color:"#7B6EFF",border:"#5A4FFF",rowId:"grade3row",name:"삼삼하게 좋은 커플"},"4등급":{top:"87.5%",color:"#B0AFBA",border:"#888",rowId:"grade4row",name:"사뿐사뿐 커플"}};
+  const gCfg = gaugeMap[gradeKey] || gaugeMap["3등급"];
+  const pointer = document.getElementById("gaugePointer");
+  if (pointer) {
+    pointer.style.top = gCfg.top;
+    pointer.style.borderColor = gCfg.border;
+    pointer.querySelector("div").style.background = gCfg.border;
+  }
+  const activeRow = document.getElementById(gCfg.rowId);
+  if (activeRow) {
+    const bgMap = {"1등급":"#FFF8E1","2등급":"#FFF0E6","3등급":"#EEEDFE","4등급":"#F5F5F5"};
+    activeRow.style.background = bgMap[gradeKey] || "#EEEDFE";
+    activeRow.style.border = "1.5px solid " + gCfg.color;
+    const nameEl = activeRow.querySelectorAll("div div")[0];
+    const nickEl = activeRow.querySelectorAll("div div")[1];
+    if (nameEl) {
+      nameEl.style.color = gCfg.border;
+      nameEl.style.fontWeight = "500";
+      nameEl.innerHTML = gradeKey + ' <span style="font-size:10px;background:'+gCfg.color+';color:white;padding:1px 6px;border-radius:6px;vertical-align:middle;">우리 커플</span>';
+    }
+    if (nickEl) { nickEl.style.color = gCfg.color; }
+  }
 }
 
 function shareKakao(gradeKey, msg) {
